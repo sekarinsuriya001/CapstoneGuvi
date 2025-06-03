@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | Namma Ooru Bus</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Cormorant Garamond for Royal Look -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .royal-font { font-family: 'Cormorant Garamond', serif !important; }
+        body { font-family: 'Cormorant Garamond', serif !important; }
+        .aztec-gold-bg { background-color: #B99750; }
+        .copyright-circle {
+            display: inline-block;
+            border-radius: 50%;
+            border: 2px solid #47143D;
+            width: 2rem;
+            height: 2rem;
+            line-height: 2rem;
+            text-align: center;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+        /* Custom animation for card entrance */
+        @keyframes royalFadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(40px) scale(0.98);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        .animate-royal-fade-in-up {
+            animation: royalFadeInUp 1s cubic-bezier(0.23, 1, 0.32, 1) both;
+        }
+        /* Shake animation for error message */
+        @keyframes shake {
+          10%, 90% { transform: translateX(-2px); }
+          20%, 80% { transform: translateX(4px); }
+          30%, 50%, 70% { transform: translateX(-8px); }
+          40%, 60% { transform: translateX(8px); }
+        }
+        .animate-\[shake_0\.5s\] {
+          animation: shake 0.5s;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between bg-cover bg-center royal-font" style="background-image: url('https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=1600&q=80');">
+<!-- Header -->
+<header class="w-full bg-[#47143D] bg-opacity-90 py-3 px-0 shadow royal-font">
+    <div class="container mx-auto flex items-center justify-between px-4">
+        <a th:href="@{/home}" class="flex items-center gap-2 text-white no-underline group transition">
+            <!-- Correct logo path for Spring Boot static resources -->
+            <img src="/images/logo.png" alt="Bus Logo" class="h-9 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-[-8deg] drop-shadow-lg">
+            <span class="text-2xl font-extrabold tracking-wide transition-colors duration-300 group-hover:text-[#B99750]">Namma Ooru Bus Booking</span>
+        </a>
+        <a th:href="@{/login}" class="bg-[#B99750] text-[#47143D] px-4 py-2 rounded font-bold shadow hover:bg-[#e6c77e] hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#47143D]">Login</a>
+    </div>
+</header>
+
+<!-- Main Content -->
+<main class="flex-grow flex items-center justify-center">
+    <div class="bg-white/95 rounded-xl shadow-2xl p-8 w-full max-w-md mx-4 royal-font animate-royal-fade-in-up transition-transform duration-500 hover:scale-105 hover:shadow-gold-500/40 hover:shadow-2xl">
+        <h2 class="text-3xl font-extrabold text-center text-[#47143D] mb-2 animate-pulse">Create an Account</h2>
+        <p class="text-center text-gray-500 mb-6">Sign up for a better travel experience</p>
+        <div th:if="${param.success}">
+            <div class="bg-green-100 text-green-800 text-center rounded px-3 py-2 mb-2 text-sm animate-bounce">
+                You have successfully registered in our app!
+            </div>
+        </div>
+        <div th:if="${errorMessage}">
+            <div class="bg-red-100 text-red-800 rounded px-3 py-2 mb-2 text-sm animate-[shake_0.5s]">
+                <p th:text="${errorMessage}"></p>
+            </div>
+        </div>
+        <form method="POST" th:action="@{/register/save}" th:object="${userDto}" class="space-y-4">
+            <div>
+                <label for="name" class="block text-[#47143D] font-semibold mb-1">Full Name</label>
+                <input type="text" id="name" name="name" required
+                       class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#B99750] transition royal-font focus:scale-105 hover:border-[#B99750]" />
+                <p class="text-red-600 text-xs mt-1" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+            </div>
+            <div>
+                <label for="email" class="block text-[#47143D] font-semibold mb-1">Email Address</label>
+                <input type="email" id="email" name="email" required
+                       class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#B99750] transition royal-font focus:scale-105 hover:border-[#B99750]" />
+                <p class="text-red-600 text-xs mt-1" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+            </div>
+            <div>
+                <label for="password" class="block text-[#47143D] font-semibold mb-1">Password</label>
+                <input type="password" id="password" name="password" required
+                       class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#B99750] transition royal-font focus:scale-105 hover:border-[#B99750]" />
+                <p class="text-red-600 text-xs mt-1" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+            </div>
+            <div>
+                <label for="phoneNumber" class="block text-[#47143D] font-semibold mb-1">Phone Number</label>
+                <input type="tel" id="phoneNumber" name="phoneNumber" required
+                       class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#B99750] transition royal-font focus:scale-105 hover:border-[#B99750]" />
+                <p class="text-red-600 text-xs mt-1" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></p>
+            </div>
+            <div>
+                <label for="role" class="block text-[#47143D] font-semibold mb-1">Role</label>
+                <select id="role" name="role" required
+                        class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#B99750] transition royal-font focus:scale-105 hover:border-[#B99750]">
+                    <option value="User">User</option>
+                    <option value="Admin">Admin</option>
+                </select>
+            </div>
+            <div>
+                <label for="age" class="block text-[#47143D] font-semibold mb-1">Age</label>
+                <input type="number" id="age" name="age" required
+                       class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#B99750] transition royal-font focus:scale-105 hover:border-[#B99750]" />
+                <p class="text-red-600 text-xs mt-1" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></p>
+            </div>
+            <div>
+                <label for="gender" class="block text-[#47143D] font-semibold mb-1">Gender</label>
+                <select id="gender" name="gender" required
+                        class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#B99750] transition royal-font focus:scale-105 hover:border-[#B99750]">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <button type="submit"
+                    class="w-full bg-[#B99750] text-[#47143D] font-bold py-2 rounded shadow hover:bg-[#e6c77e] hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#47143D] royal-font">
+                Register
+            </button>
+        </form>
+        <div class="already-registered mt-5 text-center">
+            <p class="text-[#47143D]">Already registered?
+                <a th:href="@{/login}" class="text-[#B99750] hover:underline font-semibold transition-colors duration-200 hover:text-[#47143D]">Login here</a>
+            </p>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="aztec-gold-bg text-[#47143D] text-center py-4 flex-shrink-0 royal-font mt-8">
+    <span class="copyright-circle transition-transform duration-300 hover:scale-110">&copy;</span>
+    2025 Namma Ooru Bus Booking | All rights reserved
+</footer>
+</body>
+</html>

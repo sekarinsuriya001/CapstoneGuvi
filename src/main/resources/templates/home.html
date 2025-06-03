@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Namma Ooru Bus - Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Cormorant Garamond for Royal Look -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .royal-font { font-family: 'Cormorant Garamond', serif !important; }
+        .aztec-gold-bg { background-color: #B99750; }
+        .royal-gradient {
+            background: linear-gradient(90deg, #47143D 0%, #B99750 100%);
+        }
+        .gold-gradient {
+            background: linear-gradient(90deg, #B99750 0%, #FFD700 100%);
+        }
+        /* New Button Hover: rotate and glow */
+        .btn-animate {
+            transition: transform 0.25s cubic-bezier(0.4,0,0.2,1), box-shadow 0.25s, filter 0.25s;
+        }
+        .btn-animate:hover {
+            transform: rotate(-3deg) scale(1.08);
+            box-shadow: 0 0 16px 4px #FFD700, 0 2px 8px 0 #47143D;
+            filter: brightness(1.08);
+        }
+        /* New Card Hover: lift and shadow spread */
+        .card-animate {
+            transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), box-shadow 0.35s;
+        }
+        .card-animate:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 16px 48px 0 rgba(71, 20, 61, 0.18), 0 4px 16px 0 #FFD700;
+        }
+        .copyright-circle {
+            display: inline-block;
+            border-radius: 50%;
+            border: 2px solid #47143D;
+            width: 2rem;
+            height: 2rem;
+            line-height: 2rem;
+            text-align: center;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+        /* New Animations */
+        @keyframes fadeInScale {
+            0% { opacity: 0; transform: scale(0.92) translateY(40px);}
+            100% { opacity: 1; transform: scale(1) translateY(0);}
+        }
+        .animate-fade-in-scale {
+            animation: fadeInScale 1.1s cubic-bezier(0.23, 1, 0.32, 1) both;
+        }
+        @keyframes bounceInCard {
+            0% { opacity: 0; transform: scale(0.8) translateY(40px);}
+            60% { opacity: 1; transform: scale(1.05) translateY(-8px);}
+            80% { transform: scale(0.98) translateY(2px);}
+            100% { transform: scale(1) translateY(0);}
+        }
+        .animate-bounce-in-card {
+            animation: bounceInCard 0.9s cubic-bezier(0.68, -0.55, 0.27, 1.55) both;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col bg-gradient-to-br from-[#f9f6f2] via-[#f7efe7] to-[#f9f6f2] royal-font">
+
+<!-- Header -->
+<header class="royal-gradient text-white py-4 shadow-lg flex-shrink-0">
+    <div class="container mx-auto flex items-center justify-between px-4">
+        <a class="flex items-center space-x-3 text-white font-bold text-xl" th:href="@{/home}">
+            <img src="/images/logo.png" alt="Bus Logo" class="h-10">
+            <span>Namma Ooru Bus Booking</span>
+        </a>
+        <div class="flex space-x-2">
+            <a class="btn-animate gold-gradient text-[#47143D] font-semibold px-4 py-2 rounded-lg shadow hover:shadow-xl hover:text-white hover:bg-[#47143D] transition-all duration-200"
+               th:if="${user.role == 'Admin'}" th:href="@{/admin}">
+                ADMIN INFO
+            </a>
+            <a class="btn-animate gold-gradient text-[#47143D] font-semibold px-4 py-2 rounded-lg shadow hover:shadow-xl hover:text-white hover:bg-[#47143D] transition-all duration-200"
+               th:if="${user.role == 'User'}" th:href="@{/user}">
+                USER INFO
+            </a>
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit"
+                        class="btn-animate gold-gradient text-[#47143D] font-semibold px-4 py-2 rounded-lg shadow hover:shadow-xl hover:text-white hover:bg-[#47143D] transition-all duration-200">
+                    Logout
+                </button>
+            </form>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<main class="flex-grow">
+    <!-- Hero Section -->
+    <div class="hero-section flex flex-col items-center justify-center text-center py-16 px-4 relative"
+         style="background: url('https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=1600&q=80') no-repeat center center; background-size: cover;">
+        <div class="absolute inset-0 bg-[#47143D] bg-opacity-60 backdrop-blur-sm"></div>
+        <div class="relative z-10 animate-fade-in-scale">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-[#B99750] mb-2">Book Your Journey</h1>
+            <p class="text-lg text-[#f9f6f2] mb-6">Convenient, Safe, and Affordable Travel at Your Fingertips</p>
+            <div class="search-bar bg-white bg-opacity-90 rounded-xl p-6 border-2 border-[#B99750] shadow-lg mx-auto max-w-3xl">
+                <form class="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0" method="GET" th:action="@{/routes}">
+                    <div class="flex-1">
+                        <label for="from" class="block text-[#47143D] font-bold mb-1">From</label>
+                        <input type="text" class="w-full rounded-lg border-2 border-[#B99750] focus:border-[#47143D] focus:ring-2 focus:ring-[#B99750] px-4 py-2 transition" id="from" name="from" placeholder="City or Bus Stop" required>
+                    </div>
+                    <div class="flex-1">
+                        <label for="to" class="block text-[#47143D] font-bold mb-1">To</label>
+                        <input type="text" class="w-full rounded-lg border-2 border-[#B99750] focus:border-[#47143D] focus:ring-2 focus:ring-[#B99750] px-4 py-2 transition" id="to" name="to" placeholder="City or Bus Stop" required>
+                    </div>
+                    <div class="flex-1">
+                        <label for="date" class="block text-[#47143D] font-bold mb-1">Date</label>
+                        <input type="date" class="w-full rounded-lg border-2 border-[#B99750] focus:border-[#47143D] focus:ring-2 focus:ring-[#B99750] px-4 py-2 transition" id="date" name="date" required>
+                    </div>
+                    <div class="flex items-end">
+                        <button type="submit"
+                                class="btn-animate gold-gradient text-[#47143D] font-bold px-6 py-2 rounded-lg shadow hover:bg-[#47143D] hover:text-white transition-all duration-200 w-full">
+                            Search
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Displaying search results below the search bar -->
+    <div class="container mx-auto mt-10" th:if="${not #lists.isEmpty(buses)}">
+        <h3 class="text-2xl font-bold text-[#47143D] mb-4">Available Buses</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div th:each="bus : ${buses}">
+                <div class="bg-white rounded-2xl shadow-xl card-animate animate-bounce-in-card p-6 border-2 border-[#B99750] hover:border-[#47143D] transition-all duration-300 flex flex-col h-full">
+                    <h5 class="text-xl font-bold text-[#47143D] mb-2" th:text="${bus.busName}">Bus Name</h5>
+                    <p class="text-gray-700 mb-1" th:text="'Bus Number: ' + ${bus.busNumber}">Bus Number</p>
+                    <p class="text-gray-700 mb-1" th:text="'From: ' + ${bus.source} + ' To: ' + ${bus.destination}">Route</p>
+                    <p class="text-gray-700 mb-1" th:text="'Date: ' + ${bus.date}">Date</p>
+                    <p class="text-gray-700 mb-1" th:text="'Time: ' + ${bus.time}">Time</p>
+                    <p class="text-gray-700 mb-4" th:text="'Price: ₹' + ${bus.price}">Price</p>
+                    <a class="btn-animate gold-gradient text-[#47143D] font-bold px-4 py-2 rounded-lg shadow hover:bg-[#47143D] hover:text-white transition-all duration-200 mt-auto"
+                       th:href="@{/bookings/new(busId1=${bus.id})}">
+                        Book Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- If there are no buses, display the error message -->
+    <div class="container mx-auto mt-10" th:if="${errorMessage}">
+        <div class="alert gold-gradient text-[#47143D] font-bold rounded-lg px-8 py-2 mb-6 shadow-lg animate-bounce" th:text="${errorMessage}"></div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="features-section container mx-auto mt-16">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <!-- Wide Routes -->
+            <div class="feature bg-white rounded-2xl shadow-xl card-animate animate-bounce-in-card p-8 border-2 border-[#B99750] hover:border-[#47143D] transition-all duration-300">
+                <!-- Bus Route Icon -->
+                <svg class="mx-auto mb-4 text-[#B99750]" width="40" height="40" fill="none" viewBox="0 0 40 40">
+                    <rect x="6" y="10" width="28" height="18" rx="4" stroke="#B99750" stroke-width="2" fill="none"/>
+                    <circle cx="12" cy="30" r="2" fill="#B99750"/>
+                    <circle cx="28" cy="30" r="2" fill="#B99750"/>
+                    <rect x="10" y="14" width="20" height="6" rx="2" fill="#B99750" fill-opacity="0.15"/>
+                    <rect x="16" y="22" width="8" height="2" rx="1" fill="#B99750"/>
+                </svg>
+                <h3 class="text-xl font-bold text-[#47143D] mb-2">Wide Routes</h3>
+                <p class="text-gray-600">Choose from a vast network of routes connecting cities and towns across the country.</p>
+            </div>
+            <!-- Safe Travel -->
+            <div class="feature bg-white rounded-2xl shadow-xl card-animate animate-bounce-in-card p-8 border-2 border-[#B99750] hover:border-[#47143D] transition-all duration-300">
+                <!-- Shield/Check Icon for Safety -->
+                <svg class="mx-auto mb-4 text-[#B99750]" width="40" height="40" fill="none" viewBox="0 0 40 40">
+                    <path d="M20 6 L32 10 V18c0 7-5 13-12 16C11 31 6 25 6 18V10L20 6Z" stroke="#B99750" stroke-width="2" fill="#B99750" fill-opacity="0.08"/>
+                    <path d="M15 20l4 4 6-7" stroke="#B99750" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <h3 class="text-xl font-bold text-[#47143D] mb-2">Safe Travel</h3>
+                <p class="text-gray-600">Travel with peace of mind—our buses are operated by trusted and verified partners.</p>
+            </div>
+            <!-- Affordable Pricing -->
+            <div class="feature bg-white rounded-2xl shadow-xl card-animate animate-bounce-in-card p-8 border-2 border-[#B99750] hover:border-[#47143D] transition-all duration-300">
+                <!-- Indian Rupee Icon -->
+                <svg class="mx-auto mb-4 text-[#B99750]" width="40" height="40" fill="none" viewBox="0 0 40 40">
+                    <text x="10" y="30" font-size="22" font-family="Arial, Helvetica, sans-serif" fill="#B99750" font-weight="bold">&#8377;</text>
+                </svg>
+                <h3 class="text-xl font-bold text-[#47143D] mb-2">Affordable Pricing</h3>
+                <p class="text-gray-600">Enjoy competitive fares and great value for every journey you book.</p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="aztec-gold-bg text-[#47143D] text-center py-4 flex-shrink-0 royal-font mt-8">
+    <span class="copyright-circle transition-transform duration-300 hover:scale-110">&copy;</span>
+    2025 Namma Ooru Bus Booking | All rights reserved
+</footer>
+
+<!-- Animations -->
+<script>
+    // Animate hero section elements with fadeInScale
+    document.querySelectorAll('.hero-section h1, .hero-section p').forEach((el, i) => {
+        el.style.opacity = 0;
+        setTimeout(() => {
+            el.style.transition = 'opacity 0.9s, transform 0.9s';
+            el.style.opacity = 1;
+            el.style.transform = 'scale(1) translateY(0)';
+        }, 250 + i * 250);
+    });
+</script>
+</body>
+</html>

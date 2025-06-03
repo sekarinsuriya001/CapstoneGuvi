@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Namma Ooru Bus - Login</title>
+    <!-- Google Fonts: Cormorant Garamond for royal look -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        html, body {
+            height: 100%;
+        }
+        body {
+            min-height: 100vh;
+            font-family: 'Cormorant Garamond', serif;
+            margin: 0;
+            padding: 0;
+        }
+        .aztec-gold-bg {
+            background-color: #B99750 !important;
+        }
+        .aztec-gold-text {
+            color: #B99750 !important;
+        }
+        .american-purple-bg {
+            background-color: #47143D !important;
+        }
+        .american-purple-text {
+            color: #47143D !important;
+        }
+        .royal-font {
+            font-family: 'Cormorant Garamond', serif;
+            letter-spacing: 1px;
+        }
+        /* New Button Animation: Glow and Rotate */
+        .btn-animate {
+            transition: transform 0.22s cubic-bezier(0.4,0,0.2,1), box-shadow 0.22s, filter 0.22s;
+        }
+        .btn-animate:hover, .btn-animate:focus {
+            transform: rotate(-2deg) scale(1.07);
+            box-shadow: 0 0 16px 4px #FFD700, 0 2px 8px 0 #47143D;
+            filter: brightness(1.08);
+        }
+        /* New Card Animation: Lift and Shadow Spread */
+        .card-animate {
+            transition: transform 0.32s cubic-bezier(0.4,0,0.2,1), box-shadow 0.32s;
+        }
+        .card-animate:hover, .card-animate:focus-within {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 16px 48px 0 rgba(71, 20, 61, 0.18), 0 4px 16px 0 #FFD700;
+        }
+        /* Logo visibility enhancement */
+        .logo-container {
+            background: #fff;
+            border-radius: 9999px;
+            border: 3px solid #B99750;
+            box-shadow: 0 4px 16px 0 rgba(71, 20, 61, 0.18);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.25rem;
+            height: 4.5rem;
+            width: 4.5rem;
+            overflow: hidden;
+        }
+        .logo-img {
+            height: 100%;
+            width: 100%;
+            object-fit: contain;
+            display: block;
+        }
+        .logo-fallback {
+            color: #B99750;
+            font-size: 2rem;
+            font-weight: bold;
+            font-family: 'Cormorant Garamond', serif;
+            text-align: center;
+            width: 100%;
+        }
+        /* Footer copyright symbol */
+        .copyright-circle {
+            display: inline-block;
+            border-radius: 9999px;
+            border: 2px solid #47143D;
+            color: #47143D;
+            font-weight: bold;
+            font-size: 1.1em;
+            width: 1.6em;
+            height: 1.6em;
+            line-height: 1.6em;
+            text-align: center;
+            vertical-align: middle;
+            margin-right: 0.3em;
+            background: #B99750;
+        }
+        /* Main background with purple overlay */
+        .main-bg {
+            position: relative;
+            min-height: 100vh;
+            width: 100%;
+            background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80') center center/cover no-repeat;
+        }
+        .main-bg::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(71, 20, 61, 0.75); /* American Purple overlay */
+            z-index: 1;
+        }
+        .main-content {
+            position: relative;
+            z-index: 2;
+            /* Animation for fade-in-scale */
+            opacity: 0;
+            transform: scale(0.96) translateY(40px);
+            animation: fadeInScale 1.1s cubic-bezier(0.23, 1, 0.32, 1) 0.1s forwards;
+        }
+        @keyframes fadeInScale {
+            0% { opacity: 0; transform: scale(0.96) translateY(40px);}
+            100% { opacity: 1; transform: scale(1) translateY(0);}
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+<!-- Header -->
+<header class="american-purple-bg text-white py-4 shadow-lg flex-shrink-0">
+    <div class="container mx-auto flex items-center justify-between px-4">
+        <div class="flex items-center space-x-3 text-white font-bold text-2xl royal-font">
+            <span class="logo-container">
+                <img src="" th:src="@{./images/logo.png}" alt="Logo" class="logo-img"
+                     onerror="this.style.display='none';this.parentNode.innerHTML='<span class=\'logo-fallback\'>NOB</span>';">
+            </span>
+            <span>Namma Ooru Bus Booking</span>
+        </div>
+        <a class="btn-animate aztec-gold-bg american-purple-text font-semibold px-6 py-2 rounded-lg shadow hover:shadow-xl hover:aztec-gold-text hover:american-purple-bg transition-all duration-200 royal-font" th:href="@{/register}">
+            Register
+        </a>
+    </div>
+</header>
+
+<!-- Main Content with Sleeper Bus Background -->
+<main class="main-bg flex-grow flex flex-col justify-center">
+    <div class="main-content flex flex-col items-center justify-center text-center py-10 px-4 relative">
+        <div class="relative z-10">
+            <h1 class="text-4xl md:text-5xl font-extrabold aztec-gold-text mb-2 royal-font">Login to Your Account</h1>
+            <p class="text-lg text-white mb-6 royal-font">Have a look of your booking and travel details</p>
+        </div>
+        <div th:if="${param.success}">
+            <div class="aztec-gold-bg american-purple-text font-bold rounded-lg mx-auto w-fit px-8 py-2 mb-6 shadow-lg royal-font">
+                You have successfully registered in our app!
+            </div>
+        </div>
+        <!-- Login Form -->
+        <div class="container mx-auto max-w-lg card-animate bg-white bg-opacity-95 rounded-2xl shadow-xl p-8 mt-6 border-2" style="border-color:#47143D;">
+            <div th:if="${param.error}">
+                <div class="aztec-gold-bg american-purple-text font-bold rounded-lg px-4 py-2 mb-4 shadow royal-font">Invalid Email or Password</div>
+            </div>
+            <form method="post" th:action="@{/login}" class="space-y-6">
+                <div>
+                    <label for="email" class="block american-purple-text font-bold mb-1 royal-font">Email Address</label>
+                    <input type="email" class="w-full rounded-lg border-2" style="border-color:#47143D;" id="email" name="username" required>
+                </div>
+                <div>
+                    <label for="password" class="block american-purple-text font-bold mb-1 royal-font">Password</label>
+                    <input type="password" class="w-full rounded-lg border-2" style="border-color:#47143D;" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn-animate aztec-gold-bg american-purple-text font-bold w-full px-6 py-2 rounded-lg shadow hover:american-purple-bg hover:aztec-gold-text transition-all duration-200 royal-font">
+                    Login
+                </button>
+            </form>
+            <!-- Don't have an account? -->
+            <div class="mt-6 text-center">
+                <p class="american-purple-text royal-font">Don't have an account?
+                    <a th:href="@{/register}" class="aztec-gold-text font-bold hover:underline hover:american-purple-text transition royal-font">Register here</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Footer with Aztec Gold background -->
+<footer class="aztec-gold-bg text-[#47143D] text-center py-4 flex-shrink-0 royal-font">
+    <span class="copyright-circle" style="background:#B99750; color:#47143D; border-color:#47143D;">&copy;</span>
+    2025 Namma Ooru Bus Booking | All rights reserved
+</footer>
+</body>
+</html>

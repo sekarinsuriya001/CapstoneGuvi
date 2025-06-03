@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Bus</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            min-height: 100vh;
+            font-family: 'Cormorant Garamond', serif;
+            background: url('https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=1500&q=80') center center/cover no-repeat;
+            position: relative;
+        }
+        body::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(71, 20, 61, 0.78); /* American Purple overlay */
+            z-index: 1;
+        }
+        .main-content {
+            position: relative;
+            z-index: 2;
+            opacity: 0;
+            transform: scale(0.96) translateY(40px);
+            animation: fadeInScale 1.1s cubic-bezier(0.23, 1, 0.32, 1) 0.1s forwards;
+        }
+        @keyframes fadeInScale {
+            0% { opacity: 0; transform: scale(0.96) translateY(40px);}
+            100% { opacity: 1; transform: scale(1) translateY(0);}
+        }
+        .aztec-gold-bg {
+            background-color: #B99750 !important;
+        }
+        .aztec-gold-text {
+            color: #B99750 !important;
+        }
+        .american-purple-bg {
+            background-color: #47143D !important;
+        }
+        .american-purple-text {
+            color: #47143D !important;
+        }
+        .royal-font {
+            font-family: 'Cormorant Garamond', serif;
+            letter-spacing: 1px;
+        }
+        .btn-animate {
+            transition: transform 0.22s cubic-bezier(0.4,0,0.2,1), box-shadow 0.22s, filter 0.22s;
+        }
+        .btn-animate:hover, .btn-animate:focus {
+            transform: rotate(-2deg) scale(1.07);
+            box-shadow: 0 0 16px 4px #FFD700, 0 2px 8px 0 #47143D;
+            filter: brightness(1.08);
+        }
+        .form-container {
+            background: rgba(255, 255, 255, 0.97);
+            border-radius: 18px;
+            padding: 2.5rem 2rem;
+            box-shadow: 0 8px 32px 0 rgba(71, 20, 61, 0.18), 0 2px 8px 0 #B99750;
+            max-width: 700px;
+            margin: 3rem auto;
+            position: relative;
+            overflow: hidden;
+            animation: cardPopIn 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        @keyframes cardPopIn {
+            0% { opacity: 0; transform: scale(0.92) translateY(60px);}
+            80% { opacity: 1; transform: scale(1.03) translateY(-8px);}
+            100% { opacity: 1; transform: scale(1) translateY(0);}
+        }
+        .form-label {
+            color: #47143D;
+            font-weight: bold;
+            font-family: 'Cormorant Garamond', serif;
+            transition: color 0.18s;
+        }
+        .form-label:hover {
+            color: #B99750;
+        }
+        .form-control, .form-select {
+            border: 2px solid #B99750;
+            border-radius: 0.75rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            transition: border-color 0.18s, background 0.18s;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #47143D;
+            background: #fffbe6;
+            box-shadow: 0 0 0 2px #B9975033;
+        }
+        .form-control:hover, .form-select:hover {
+            background: #f7efe7;
+        }
+        .btn-primary {
+            background-color: #B99750 !important;
+            color: #47143D !important;
+            border: none;
+            font-weight: bold;
+            font-family: 'Cormorant Garamond', serif;
+            transition: background 0.22s, color 0.22s, box-shadow 0.22s, transform 0.22s;
+        }
+        .btn-primary:hover, .btn-primary:focus {
+            background-color: #47143D !important;
+            color: #FFD700 !important;
+            box-shadow: 0 0 16px 4px #FFD700, 0 2px 8px 0 #47143D;
+            transform: scale(1.04) rotate(-2deg);
+        }
+        .hero-section {
+            text-align: center;
+            padding: 20px 20px 0 20px;
+        }
+        .hero-section h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #B99750;
+            letter-spacing: 1px;
+            animation: bounceIn 1.1s;
+        }
+        .hero-section p {
+            color: #fff;
+            font-size: 1.15rem;
+            margin-bottom: 0.5rem;
+            animation: fadeInUp 1.2s;
+        }
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.8) translateY(-40px);}
+            60% { opacity: 1; transform: scale(1.05) translateY(8px);}
+            80% { transform: scale(0.98) translateY(-2px);}
+            100% { transform: scale(1) translateY(0);}
+        }
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(40px);}
+            100% { opacity: 1; transform: translateY(0);}
+        }
+        .bus-icon-anim {
+            display: inline-block;
+            margin-bottom: 0.5rem;
+            animation: busMove 2.5s cubic-bezier(0.23, 1, 0.32, 1) infinite alternate;
+        }
+        @keyframes busMove {
+            0% { transform: translateX(-8px) scale(1);}
+            60% { transform: translateX(8px) scale(1.04);}
+            100% { transform: translateX(0) scale(1);}
+        }
+        .copyright-circle {
+            display: inline-block;
+            border-radius: 9999px;
+            border: 2px solid #47143D;
+            color: #47143D;
+            font-weight: bold;
+            font-size: 1.1em;
+            width: 1.6em;
+            height: 1.6em;
+            line-height: 1.6em;
+            text-align: center;
+            vertical-align: middle;
+            margin-right: 0.3em;
+            background: #B99750;
+        }
+        header, footer {
+            position: relative;
+            z-index: 3;
+        }
+        .logout-btn {
+            background: #B99750;
+            color: #47143D;
+            font-weight: bold;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1.2rem;
+            transition: background 0.22s, color 0.22s, box-shadow 0.22s, transform 0.22s;
+            border: none;
+        }
+        .logout-btn:hover, .logout-btn:focus {
+            background: #47143D;
+            color: #FFD700;
+            box-shadow: 0 0 16px 4px #FFD700, 0 2px 8px 0 #47143D;
+            transform: scale(1.04) rotate(-2deg);
+        }
+    </style>
+</head>
+<body>
+<!-- Header -->
+<header class="american-purple-bg text-white py-4 shadow-lg flex-shrink-0">
+    <div class="container mx-auto flex items-center justify-between px-4">
+        <a class="flex items-center space-x-3 text-white font-bold text-2xl royal-font text-decoration-none" th:href="@{/home}">
+            <img src="/images/logo.png" alt="Bus Logo" style="height: 2.5rem; margin-right: 0.7rem;">
+            <span>Namma Ooru Bus Booking</span>
+        </a>
+        <a class="logout-btn btn-animate royal-font" th:href="@{/logout}">Logout</a>
+    </div>
+</header>
+
+<!-- Main Content -->
+<main class="main-content flex flex-col justify-center">
+    <div class="hero-section">
+        <span class="bus-icon-anim">
+            <!-- Animated SVG Bus Icon -->
+            <svg width="60" height="36" viewBox="0 0 60 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="6" y="10" width="48" height="16" rx="4" fill="#B99750" stroke="#47143D" stroke-width="2"/>
+                <rect x="10" y="14" width="40" height="6" rx="2" fill="#fff" fill-opacity="0.7"/>
+                <circle cx="16" cy="30" r="3" fill="#47143D"/>
+                <circle cx="44" cy="30" r="3" fill="#47143D"/>
+                <rect x="24" y="20" width="12" height="2" rx="1" fill="#47143D"/>
+            </svg>
+        </span>
+        <h1>Update Bus</h1>
+        <p>Provide details of the updated bus</p>
+    </div>
+
+    <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+    <!-- Update Bus Form -->
+    <div class="form-container">
+        <form method="POST"
+              th:action="@{/admin/admin-updateform/{id}(id=${bus.id})}"
+              th:object="${bus}">
+            <input type="hidden" th:field="*{id}" />
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="busNumber" class="form-label">Bus Number</label>
+                    <input type="text" class="form-control w-full" id="busNumber" th:field="*{busNumber}" required>
+                </div>
+                <div>
+                    <label for="busName" class="form-label">Bus Name</label>
+                    <input type="text" class="form-control w-full" id="busName" th:field="*{busName}" required>
+                </div>
+                <div>
+                    <label for="capacity" class="form-label">Capacity</label>
+                    <input type="number" class="form-control w-full" id="capacity" th:field="*{capacity}" min="1" required>
+                </div>
+                <div>
+                    <label for="price" class="form-label">Ticket Price</label>
+                    <input type="number" class="form-control w-full" id="price" th:field="*{price}" min="0" required>
+                </div>
+                <div>
+                    <label for="source" class="form-label">Source</label>
+                    <input type="text" class="form-control w-full" id="source" th:field="*{source}" required>
+                </div>
+                <div>
+                    <label for="destination" class="form-label">Destination</label>
+                    <input type="text" class="form-control w-full" id="destination" th:field="*{destination}" required>
+                </div>
+                <div>
+                    <label for="date" class="form-label">Travel Date</label>
+                    <input type="date" class="form-control w-full" id="date" th:field="*{date}" required>
+                </div>
+                <div>
+                    <label for="time" class="form-label">Travel Time</label>
+                    <input type="time" class="form-control w-full" id="time" th:field="*{time}" required>
+                </div>
+                <div>
+                    <label for="duration" class="form-label">Duration (Hours)</label>
+                    <input type="number" class="form-control w-full" id="duration" th:field="*{duration}" min="1" required>
+                </div>
+                <div>
+                    <label for="availableSeats" class="form-label">Available Seats</label>
+                    <input type="number" class="form-control w-full" id="availableSeats" th:field="*{availableSeats}" min="0" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-animate w-full mt-6">Update Bus</button>
+        </form>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="aztec-gold-bg text-[#47143D] text-center py-4 flex-shrink-0 royal-font mt-8">
+    <span class="copyright-circle transition-transform duration-300 hover:scale-110">&copy;</span>
+    2025 Namma Ooru Bus Booking | All rights reserved
+</footer>
+</body>
+</html>

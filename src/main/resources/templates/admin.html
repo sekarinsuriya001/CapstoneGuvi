@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Info</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            min-height: 100vh;
+            font-family: 'Cormorant Garamond', serif;
+            background: url('https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=1500&q=80') center center/cover no-repeat;
+            position: relative;
+        }
+        body::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(71, 20, 61, 0.78);
+            z-index: 1;
+        }
+        .main-content, header, footer {
+            position: relative;
+            z-index: 2;
+        }
+        .main-content {
+            opacity: 0;
+            transform: scale(0.96) translateY(40px);
+            animation: fadeInScale 1.1s cubic-bezier(0.23, 1, 0.32, 1) 0.1s forwards;
+        }
+        @keyframes fadeInScale {
+            0% { opacity: 0; transform: scale(0.96) translateY(40px);}
+            100% { opacity: 1; transform: scale(1) translateY(0);}
+        }
+        .royal-font { font-family: 'Cormorant Garamond', serif !important; }
+        .aztec-gold-bg { background-color: #B99750 !important; }
+        .aztec-gold-text { color: #B99750 !important; }
+        .american-purple-bg { background-color: #47143D !important; }
+        .american-purple-text { color: #47143D !important; }
+        .btn-animate {
+            transition: transform 0.22s, box-shadow 0.22s, filter 0.22s;
+        }
+        .btn-animate:hover, .btn-animate:focus {
+            transform: scale(1.07) rotate(-2deg);
+            box-shadow: 0 0 16px 4px #FFD700, 0 2px 8px 0 #47143D;
+            filter: brightness(1.08);
+        }
+        .card-animate {
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card-animate:hover {
+            transform: scale(1.04) rotate(-1deg);
+            box-shadow: 0 8px 32px 0 rgba(71, 20, 61, 0.12), 0 2px 8px 0 #B99750;
+        }
+        .copyright-circle {
+            display: inline-block;
+            border-radius: 50%;
+            border: 2px solid #47143D;
+            width: 2rem;
+            height: 2rem;
+            line-height: 2rem;
+            text-align: center;
+            font-weight: bold;
+            margin-right: 0.5rem;
+            background: #B99750;
+            color: #47143D;
+        }
+    </style>
+</head>
+
+<body>
+<!-- Overlay handled by body::before -->
+<!-- Header -->
+<header class="american-purple-bg text-white py-4 shadow-lg flex-shrink-0">
+    <div class="container mx-auto flex items-center justify-between px-4">
+        <a class="flex items-center space-x-3 text-white font-bold text-2xl royal-font" th:href="@{/home}">
+            <img src="/images/logo.png" alt="Bus Logo" class="h-10 mr-3">
+            <span>Namma Ooru Bus Booking</span>
+        </a>
+        <a class="btn-animate aztec-gold-bg american-purple-text font-semibold px-6 py-2 rounded-lg shadow hover:aztec-gold-text hover:american-purple-bg transition-all duration-200 royal-font" th:href="@{/logout}">
+            Logout
+        </a>
+    </div>
+</header>
+
+<!-- Main Content -->
+<main class="main-content flex-grow">
+    <div class="hero-section text-center py-10">
+        <h1 class="text-4xl md:text-5xl font-extrabold aztec-gold-text mb-2 drop-shadow-lg">Welcome, Admin!</h1>
+        <p class="text-lg text-white mb-4">Manage your bus services and user data with the options below.</p>
+    </div>
+    <div th:if="${param.success}">
+        <div class="alert aztec-gold-bg american-purple-text font-bold rounded-lg mx-auto w-fit px-8 py-2 mb-6 shadow-lg animate-bounce">
+            SUCCESS
+        </div>
+    </div>
+
+    <!-- Unique Features in Cards Section -->
+    <div class="container mx-auto flex flex-wrap justify-center gap-8 px-4 pb-12">
+        <!-- Add Bus -->
+        <div class="bg-white/95 rounded-2xl shadow-xl card-animate w-80 p-8 flex flex-col items-center border-2 border-[#B99750] hover:border-[#47143D] transition-all duration-300">
+            <!-- Icon: Plus Bus -->
+            <svg class="mb-4" width="40" height="40" fill="none" viewBox="0 0 40 40">
+                <rect x="6" y="10" width="28" height="18" rx="4" stroke="#B99750" stroke-width="2" fill="none"/>
+                <path d="M20 16v8M16 20h8" stroke="#B99750" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="12" cy="30" r="2" fill="#B99750"/>
+                <circle cx="28" cy="30" r="2" fill="#B99750"/>
+            </svg>
+            <h5 class="text-xl font-bold american-purple-text mb-2">Add Bus</h5>
+            <p class="text-gray-700 mb-4 text-center">Add new bus details to the system.</p>
+            <a class="btn-animate aztec-gold-bg american-purple-text font-bold px-4 py-2 rounded-lg shadow hover:american-purple-bg hover:aztec-gold-text transition-all duration-200"
+               th:href="@{/admin/admin-addBus}">Go to Add Bus</a>
+        </div>
+        <!-- Delete Bus -->
+        <div class="bg-white/95 rounded-2xl shadow-xl card-animate w-80 p-8 flex flex-col items-center border-2 border-[#B99750] hover:border-[#47143D] transition-all duration-300">
+            <!-- Icon: Trash -->
+            <svg class="mb-4" width="40" height="40" fill="none" viewBox="0 0 40 40">
+                <rect x="12" y="16" width="16" height="14" rx="2" stroke="#B99750" stroke-width="2"/>
+                <rect x="16" y="10" width="8" height="4" rx="1" stroke="#B99750" stroke-width="2"/>
+                <path d="M10 16h20" stroke="#B99750" stroke-width="2"/>
+            </svg>
+            <h5 class="text-xl font-bold american-purple-text mb-2">Delete Bus</h5>
+            <p class="text-gray-700 mb-4 text-center">Remove a bus from the system.</p>
+            <a class="btn-animate aztec-gold-bg american-purple-text font-bold px-4 py-2 rounded-lg shadow hover:american-purple-bg hover:aztec-gold-text transition-all duration-200"
+               th:href="@{/admin/admin-deleteBus}">Go to Delete Bus</a>
+        </div>
+        <!-- Update Bus -->
+        <div class="bg-white/95 rounded-2xl shadow-xl card-animate w-80 p-8 flex flex-col items-center border-2 border-[#B99750] hover:border-[#47143D] transition-all duration-300">
+            <!-- Icon: Edit -->
+            <svg class="mb-4" width="40" height="40" fill="none" viewBox="0 0 40 40">
+                <rect x="8" y="28" width="24" height="4" rx="2" fill="#B99750" fill-opacity="0.2"/>
+                <path d="M24 12l4 4-12 12h-4v-4L24 12z" stroke="#B99750" stroke-width="2" fill="none"/>
+            </svg>
+            <h5 class="text-xl font-bold american-purple-text mb-2">Update Bus</h5>
+            <p class="text-gray-700 mb-4 text-center">Edit details of an existing bus.</p>
+            <a class="btn-animate aztec-gold-bg american-purple-text font-bold px-4 py-2 rounded-lg shadow hover:american-purple-bg hover:aztec-gold-text transition-all duration-200"
+               th:href="@{/admin/admin-updateBus}">Go to Update Bus</a>
+        </div>
+        <!-- View All Users -->
+        <div class="bg-white/95 rounded-2xl shadow-xl card-animate w-80 p-8 flex flex-col items-center border-2 border-[#B99750] hover:border-[#47143D] transition-all duration-300">
+            <!-- Icon: Users -->
+            <svg class="mb-4" width="40" height="40" fill="none" viewBox="0 0 40 40">
+                <circle cx="14" cy="16" r="5" stroke="#B99750" stroke-width="2"/>
+                <circle cx="26" cy="16" r="5" stroke="#B99750" stroke-width="2"/>
+                <rect x="8" y="24" width="24" height="8" rx="4" stroke="#B99750" stroke-width="2"/>
+            </svg>
+            <h5 class="text-xl font-bold american-purple-text mb-2">View All Users</h5>
+            <p class="text-gray-700 mb-4 text-center">See all registered users.</p>
+            <a class="btn-animate aztec-gold-bg american-purple-text font-bold px-4 py-2 rounded-lg shadow hover:american-purple-bg hover:aztec-gold-text transition-all duration-200"
+               th:href="@{/admin/admin-viewUsers}">Go to View Users</a>
+        </div>
+        <!-- View All Buses -->
+        <div class="bg-white/95 rounded-2xl shadow-xl card-animate w-80 p-8 flex flex-col items-center border-2 border-[#B99750] hover:border-[#47143D] transition-all duration-300">
+            <!-- Icon: Bus List -->
+            <svg class="mb-4" width="40" height="40" fill="none" viewBox="0 0 40 40">
+                <rect x="8" y="12" width="24" height="12" rx="4" stroke="#B99750" stroke-width="2"/>
+                <circle cx="14" cy="28" r="2" fill="#B99750"/>
+                <circle cx="26" cy="28" r="2" fill="#B99750"/>
+                <rect x="16" y="16" width="8" height="4" rx="1" fill="#B99750" fill-opacity="0.15"/>
+            </svg>
+            <h5 class="text-xl font-bold american-purple-text mb-2">View All Buses</h5>
+            <p class="text-gray-700 mb-4 text-center">See the list of all buses available.</p>
+            <a class="btn-animate aztec-gold-bg american-purple-text font-bold px-4 py-2 rounded-lg shadow hover:american-purple-bg hover:aztec-gold-text transition-all duration-200"
+               th:href="@{/admin/admin-viewBuses}">Go to View Buses</a>
+        </div>
+        <!-- View Bookings -->
+        <div class="bg-white/95 rounded-2xl shadow-xl card-animate w-80 p-8 flex flex-col items-center border-2 border-[#B99750] hover:border-[#47143D] transition-all duration-300">
+            <!-- Icon: Clipboard/Bookings -->
+            <svg class="mb-4" width="40" height="40" fill="none" viewBox="0 0 40 40">
+                <rect x="10" y="12" width="20" height="16" rx="3" stroke="#B99750" stroke-width="2"/>
+                <rect x="16" y="8" width="8" height="4" rx="2" fill="#B99750" fill-opacity="0.2"/>
+                <path d="M16 18h8M16 22h8" stroke="#B99750" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <h5 class="text-xl font-bold american-purple-text mb-2">View Bookings</h5>
+            <p class="text-gray-700 mb-4 text-center">Check all bookings made by users.</p>
+            <a class="btn-animate aztec-gold-bg american-purple-text font-bold px-4 py-2 rounded-lg shadow hover:american-purple-bg hover:aztec-gold-text transition-all duration-200"
+               th:href="@{/admin/admin-viewBookings}">Go to View Bookings</a>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="aztec-gold-bg text-[#47143D] text-center py-4 flex-shrink-0 royal-font mt-8">
+    <span class="copyright-circle transition-transform duration-300 hover:scale-110">&copy;</span>
+    2025 Namma Ooru Bus Booking | All rights reserved
+</footer>
+</body>
+</html>
