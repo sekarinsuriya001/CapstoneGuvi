@@ -3,7 +3,6 @@ package com.busticketbooking.NammaOoruBus.service;
 import com.busticketbooking.NammaOoruBus.dto.UserDto;
 import com.busticketbooking.NammaOoruBus.entity.User;
 import com.busticketbooking.NammaOoruBus.repository.UserRepo;
-import com.busticketbooking.NammaOoruBus.service.UserServiceImpl;
 import com.busticketbooking.NammaOoruBus.exception.EmailPresent;
 import com.busticketbooking.NammaOoruBus.exception.PhoneNumberPresent;
 import org.junit.jupiter.api.BeforeEach;

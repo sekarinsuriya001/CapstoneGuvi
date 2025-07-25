@@ -1,6 +1,7 @@
 package com.busticketbooking.NammaOoruBus.repository;
 
 import com.busticketbooking.NammaOoruBus.entity.Bookings;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,11 @@ public class BookingRepoTests {
 
     @Autowired
     private BookingRepo bookingRepo;
+
+    @BeforeEach
+    public void setUp() {
+        bookingRepo.deleteAll();
+    }
 
     @Test
     @DisplayName("Test case for finding bookings by email")

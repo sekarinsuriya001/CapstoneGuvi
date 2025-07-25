@@ -20,6 +20,8 @@ public class BusDataRepoTests {
     @Test
     @DisplayName("Test case for finding buses by source, destination, and date")
     public void givenBusData_whenFindBySourceAndDestinationAndDate_thenReturnBuses() {
+        busDataRepo.deleteAll(); // Clear collection before test
+
         // given
         BusData bus1 = new BusData();
         bus1.setBusNumber("ABC123");
@@ -59,6 +61,8 @@ public class BusDataRepoTests {
     @Test
     @DisplayName("Test case for checking if a bus exists by bus number")
     public void givenBusNumber_whenExistsByBusNumber_thenReturnTrue() {
+        busDataRepo.deleteAll(); // Clear collection before test
+
         // given
         BusData bus = new BusData();
         bus.setBusNumber("XYZ789");
@@ -84,6 +88,8 @@ public class BusDataRepoTests {
     @Test
     @DisplayName("Test case for non-existing bus number")
     public void givenBusNumber_whenExistsByBusNumber_thenReturnFalse() {
+        busDataRepo.deleteAll(); // Clear collection before test
+
         // when
         boolean exists = busDataRepo.existsByBusNumber("NON123");
 
