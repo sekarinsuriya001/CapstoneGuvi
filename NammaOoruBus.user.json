@@ -1,0 +1,52 @@
+[{
+  "_id": {
+    "$oid": "683ef849246459cf3f46bce9"
+  },
+  "name": "Jane Doe",
+  "email": "janedoe@example.com",
+  "password": "Password@123",
+  "phoneNumber": "98765432100",
+  "role": "User",
+  "age": 28,
+  "gender": "Female",
+  "_class": "com.busticketbooking.NammaOoruBus.entity.User"
+},
+{
+  "_id": {
+    "$oid": "683f039e66b96b3a3ba5cf19"
+  },
+  "name": "Rangaraj",
+  "email": "ranga@gmail.com",
+  "password": "$2a$10$0Xv2VPP1eH73RPlH3sGX3O0mgHRHpaeU8P1M09WQiGS77TJPHWVcS",
+  "phoneNumber": "9874561230",
+  "role": "User",
+  "age": 25,
+  "gender": "Male",
+  "_class": "com.busticketbooking.NammaOoruBus.entity.User"
+},
+{
+  "_id": {
+    "$oid": "683f04d366b96b3a3ba5cf1a"
+  },
+  "name": "Shivaraj Khanna",
+  "email": "shiva@gmail.com",
+  "password": "$2a$10$/lLL50FIQGzeXITK6fyageOA0QPnvHrGTNICmtttRCW8opylygaBu",
+  "phoneNumber": "6547892130",
+  "role": "User",
+  "age": 36,
+  "gender": "Male",
+  "_class": "com.busticketbooking.NammaOoruBus.entity.User"
+},
+{
+  "_id": {
+    "$oid": "683f070566b96b3a3ba5cf1b"
+  },
+  "name": "Ganesh Moorthy",
+  "email": "ganesh@outlook.com",
+  "password": "$2a$10$oIlh4gAaP8v1XuQlaLHbrOTbjOgT8hJZt3s0cnmLM5ai6Mr4Y.yfu",
+  "phoneNumber": "7845120396",
+  "role": "Admin",
+  "age": 37,
+  "gender": "Male",
+  "_class": "com.busticketbooking.NammaOoruBus.entity.User"
+}]
